@@ -12,8 +12,7 @@ public class Enemy : MonoBehaviour
     }
 
     private IEnumerator WaitBeforeFollowHero() {
-        yield return new WaitForSeconds(3);
-
+        yield return new WaitForSeconds(2);
         transform.position = Vector2.MoveTowards(transform.position,target.position,enemySpeed * Time.deltaTime);
     }
 }
