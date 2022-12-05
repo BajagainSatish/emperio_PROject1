@@ -7,11 +7,22 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float enemySpeed;
     [SerializeField] private float jumpSpeed;
     public Transform target;
+    //public Transform obstacleTarget; //drag obstacle prefab into script
     private Rigidbody2D enemyRb;
+    //public float minimumDistance; //10, distance between enemy and obstacle at which enemy jumps
+
+    private void Start() {
+        enemyRb = GetComponent<Rigidbody2D>();
+    }
 
     private void Update() {
         StartCoroutine(WaitBeforeFollowPlayer());
-        enemyRb = GetComponent<Rigidbody2D>();
+        /*
+        if (Vector2.Distance(transform.position, obstacleTarget.position) < minimumDistance) {
+            //Debug.Log("collided with obstacle");
+            enemyRb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Force);
+        }
+        */
     }
 
     private IEnumerator WaitBeforeFollowPlayer() {
@@ -25,4 +36,5 @@ public class Enemy : MonoBehaviour
             enemyRb.AddForce(Vector2.up*jumpSpeed,ForceMode2D.Force);
         }
     }
+
 }
