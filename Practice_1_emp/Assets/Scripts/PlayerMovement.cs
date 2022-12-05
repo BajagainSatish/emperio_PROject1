@@ -8,34 +8,32 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
     private GameManager gameManager;
-    public float speed = 10;
-    public Camera mainCam;
+    public float speed;
+    private bool isGrounded;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
-        gameManager = 
     }
 
-    // Update is called once per frame
     void Update()
     { 
         //playerRb.velocity = new Vector2(Input.GetAxis("Horizontal") * (speed / 2), playerRb.velocity.y);
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.Space) && isGrounded) {
             playerRb.velocity = new Vector2(playerRb.velocity.x, speed);
             Debug.Log("Jump");
-        }
-        if(mainCam.transform.position.x < -16) {
-            mainCam.transform.position = new Vector3(-16, transform.position.y);
+            isGrounded = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")) {
-            
-            Debug.Log("Collided with enemy");
+            Debug.Log("Collision:Enemy");
+        }
+        if (collision.gameObject.CompareTag("Ground")) {
+            isGrounded = true;
+            Debug.Log("Player:Grounded");
         }
     }
 
@@ -49,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnClickJump()
     {
-        playerRb.AddForce(Vector2.up * speed, ForceMode2D.Force);
+        if (isGrounded == true)
+        {
+            playerRb.AddForce(Vector2.up * speed, ForceMode2D.Force);
+            isGrounded = false;
+            Debug.Log("Jump");
+        }
     }
 }

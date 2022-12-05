@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 73995031}
   - component: {fileID: 73995030}
   - component: {fileID: 73995029}
+  - component: {fileID: 73995032}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -316,13 +317,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73995028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.11, y: -2.45, z: -10}
+  m_LocalPosition: {x: -8.11, y: -1.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &73995032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73995028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6b52ee1d6691240bdc67191b2b1503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1473904292}
+  cameraSpeed: 5
 --- !u!1 &99288933
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +490,7 @@ GameObject:
   - component: {fileID: 146628745}
   - component: {fileID: 146628744}
   m_Layer: 0
-  m_Name: leftMov
+  m_Name: LeftMov
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,7 +565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 132, y: 115}
+  m_AnchoredPosition: {x: 125, y: 144}
   m_SizeDelta: {x: 1.9499512, y: 2.039978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146628744
@@ -800,6 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 5
+  jumpSpeed: 500
   target: {fileID: 1473904292}
 --- !u!212 &900341090
 SpriteRenderer:
@@ -861,7 +877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900341086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.42, y: -3.59, z: 0}
+  m_LocalPosition: {x: 45.4, y: -3.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -894,11 +910,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1818060122522220579, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.34
+      value: 30.58
       objectReference: {fileID: 0}
     - target: {fileID: 1818060122522220579, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.22
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 1818060122522220579, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -935,6 +951,10 @@ PrefabInstance:
     - target: {fileID: 1818060122522220591, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
       propertyPath: m_Name
       value: ground (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818060122522220591, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cc5de551c0a35a4a84dfbc59ff915ae, type: 3}
@@ -1439,8 +1459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28bfffa95d4abbc43bfee033555f70ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
-  mainCam: {fileID: 73995030}
+  speed: 500
 --- !u!1 &1571236031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,7 +1549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 420.00012, y: 114.99997}
+  m_AnchoredPosition: {x: 515, y: 144}
   m_SizeDelta: {x: 1.9499512, y: 2.039978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571236034
@@ -1969,7 +1988,7 @@ GameObject:
   - component: {fileID: 2131220606}
   - component: {fileID: 2131220607}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: DetectObstacle
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2003,7 +2022,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.40554583, y: -0.2636641}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2014,7 +2033,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.400971, y: 2.1553814}
   m_EdgeRadius: 0
 --- !u!1001 &1818060123057100506
 PrefabInstance:
