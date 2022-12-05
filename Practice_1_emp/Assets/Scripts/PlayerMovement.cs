@@ -9,11 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerRb;
     private GameManager gameManager;
     public float speed = 10;
+    public Camera mainCam;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        gameManager = 
     }
 
     // Update is called once per frame
@@ -24,12 +26,16 @@ public class PlayerMovement : MonoBehaviour
             playerRb.velocity = new Vector2(playerRb.velocity.x, speed);
             Debug.Log("Jump");
         }
+        if(mainCam.transform.position.x < -16) {
+            mainCam.transform.position = new Vector3(-16, transform.position.y);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")) {
-            Destroy(collision.gameObject);
+            
+            Debug.Log("Collided with enemy");
         }
     }
 

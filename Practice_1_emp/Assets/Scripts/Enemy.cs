@@ -8,10 +8,10 @@ public class Enemy : MonoBehaviour
     public Transform target;
 
     private void Update() {
-        StartCoroutine(WaitBeforeFollowHero());
+        StartCoroutine(WaitBeforeFollowPlayer());
     }
 
-    private IEnumerator WaitBeforeFollowHero() {
+    private IEnumerator WaitBeforeFollowPlayer() {
         yield return new WaitForSeconds(2);
         transform.position = Vector2.MoveTowards(transform.position,target.position,enemySpeed * Time.deltaTime);
     }
