@@ -15,19 +15,21 @@ public class scenemanager : MonoBehaviour
         Debug.Log("Application.Quit()");
         Application.Quit();
     }
-    public void onClickMainMenu() {
-
-        SceneManager.LoadScene("MainMenu");
-    }
 
     public void onClickBack() {
         SceneManager.LoadScene("MainMenu");
     }
 
     public void onClickOption() {
-        Debug.Log("Option is Clicked");
+        Debug.Log("Option about to be Clicked");
+        StartCoroutine(WaitForOptUIAni());
+    }
 
-        if(optIsActive == false) {
+    private IEnumerator WaitForOptUIAni() { 
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Option is Clicked");
+        if (optIsActive == false)
+        {
             Debug.Log("You Are inside Options. But is not what u Thinkkkk...:)");
             optIsActive = true;
             startButton.gameObject.SetActive(false);
