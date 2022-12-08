@@ -31,9 +31,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy")) {
             Debug.Log("Collision:Enemy");
         }
-        if (collision.gameObject.CompareTag("Ground")) {
+        else if (collision.gameObject.CompareTag("Ground")) {
             isGrounded = true;
             Debug.Log("Player:Grounded");
+        }
+        else if (collision.gameObject.CompareTag("Platform")) {
+            isGrounded = true;
         }
     }
 

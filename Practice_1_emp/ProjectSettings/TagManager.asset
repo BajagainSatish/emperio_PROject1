@@ -7,7 +7,7 @@ TagManager:
   - Hero
   - Enemy
   - Ground
-  - Obstacle
+  - Platform
   layers:
   - Default
   - TransparentFX

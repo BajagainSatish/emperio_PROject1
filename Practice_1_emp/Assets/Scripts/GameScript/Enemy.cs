@@ -27,11 +27,11 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator WaitBeforeFollowPlayer() {
         yield return new WaitForSeconds(2);
-        transform.position = Vector2.MoveTowards(transform.position,target.position,enemySpeed * Time.deltaTime);
+        enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Obstacle")) {
+        if (collision.gameObject.CompareTag("Platform")) {
             //Debug.Log("collided with obstacle");
             enemyRb.AddForce(Vector2.up*jumpSpeed,ForceMode2D.Force);
         }
