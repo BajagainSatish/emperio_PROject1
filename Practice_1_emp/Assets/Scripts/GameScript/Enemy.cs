@@ -17,17 +17,11 @@ public class Enemy : MonoBehaviour
 
     private void Update() {
         StartCoroutine(WaitBeforeFollowPlayer());
-        /*
-        if (Vector2.Distance(transform.position, obstacleTarget.position) < minimumDistance) {
-            //Debug.Log("collided with obstacle");
-            enemyRb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Force);
-        }
-        */
     }
 
     private IEnumerator WaitBeforeFollowPlayer() {
         yield return new WaitForSeconds(2);
-        enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed);
+        enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

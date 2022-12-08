@@ -9,11 +9,10 @@ public class scenemanager : MonoBehaviour
     bool optIsActive = false;
 
     public void onClickStart() {
-        SceneManager.LoadScene("Game1");
+        StartCoroutine(WaitForStartUIAni());
     }
     public void onClickExit()    {
-        Debug.Log("Application.Quit()");
-        Application.Quit();
+        StartCoroutine (WaitForExitUIAni());
     }
 
     public void onClickBack() {
@@ -37,5 +36,16 @@ public class scenemanager : MonoBehaviour
             exitButton.gameObject.SetActive(false);
             backButton.gameObject.SetActive(true);
         }
+    }
+    private IEnumerator WaitForStartUIAni()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Game1");
+    }
+    private IEnumerator WaitForExitUIAni()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Application.Quit()");
+        Application.Quit();
     }
 }
