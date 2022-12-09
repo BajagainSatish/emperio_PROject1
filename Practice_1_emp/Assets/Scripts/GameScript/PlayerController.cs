@@ -1,36 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+
     private Rigidbody2D playerRb;
     private GameManager gameManager;
-    public float runSpeed;
-    public float jumpSpeed;
-    private bool isGrounded;
 
-    void Start()
-    {
+    public float runSpeed, jumpForce;
+    public int direction;
+
+    private bool isGrounded,isHolding;
+   
+
+    void Start() {
         playerRb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
+    void Update() {
+        if(isHolding == true) {
 
+            playerRb.AddForce(new Vector2(direction,0) * runSpeed, ForceMode2D.Force);
+        }
 
-        
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+    private void OnCollisionEnter2D(Collision2D collision) {
+
         if (collision.gameObject.CompareTag("Enemy")) {
             Debug.Log("Collision:Enemy");
         }
-        
+
         else if (collision.gameObject.CompareTag("Ground")) {
             isGrounded = true;
             Debug.Log("Player:Grounded");
@@ -45,33 +46,47 @@ public class PlayerMovement : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    public void onClickLeft()
-    {
-        playerRb.AddForce(Vector2.left * runSpeed, ForceMode2D.Force);
+
+
+    public void OnLeftDown() {
+      
+        isHolding = true;
+        direction = -1;
+        Debug.Log("Is Left Down");
     }
-    public void onClickRight()
-    {
-        playerRb.AddForce(Vector2.right * runSpeed, ForceMode2D.Force);
+
+    public void onLeftUp() {
+        isHolding = false;
     }
+
+    public void onRightDown() {
+        isHolding = true;
+        direction = 1;
+        Debug.Log("Is Right Down");
+    }
+
+    public void onRightUp() {
+        isHolding = false;
+    }
+
 
     public void onClickJump() {
         if (isGrounded == true) {
-            playerRb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Force);
+            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
             isGrounded = false;
             Debug.Log("Jump");
         }
     }
 
-private IEnumerator shortPowerUp() {
+    private IEnumerator shortPowerUp() {
         runSpeed *= 2;
-        jumpSpeed *= 2;
+        jumpForce *= 2;
         yield return new WaitForSeconds(10);
         Debug.Log("YO YO");
         runSpeed /= 2;
-        jumpSpeed /= 2;
+        jumpForce /= 2;
         StopCoroutine(shortPowerUp());
     }
 
 
 }
-
