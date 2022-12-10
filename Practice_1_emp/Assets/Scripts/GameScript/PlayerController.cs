@@ -9,19 +9,23 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
 
     public float runSpeed, jumpForce;
-    public int direction;
+    private int direction;
 
-    private bool isGrounded,isHolding;
+    private bool isGrounded,isHolding,shouldJump;
    
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
     }
 
-    void Update() {
-        if(isHolding == true) {
-
-            playerRb.AddForce(new Vector2(direction,0) * runSpeed, ForceMode2D.Force);
+    void FixedUpdate() {
+        if(isHolding == true &&  isGrounded == true) {
+            playerRb.AddForce(new Vector2(direction,0) * runSpeed * Time.fixedDeltaTime);
+        }
+        if (shouldJump == true && isGrounded == true) {
+            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            shouldJump = false;
+            isGrounded = false;   
         }
 
     }
@@ -52,37 +56,30 @@ public class PlayerController : MonoBehaviour
       
         isHolding = true;
         direction = -1;
-        Debug.Log("Is Left Down");
     }
 
-    public void onLeftUp() {
+    public void OnLeftUp() {
         isHolding = false;
     }
 
-    public void onRightDown() {
+    public void OnRightDown() {
         isHolding = true;
         direction = 1;
-        Debug.Log("Is Right Down");
     }
 
-    public void onRightUp() {
+    public void OnRightUp() {
         isHolding = false;
     }
 
 
-    public void onClickJump() {
-        if (isGrounded == true) {
-            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
-            isGrounded = false;
-            Debug.Log("Jump");
-        }
+    public void OnClickJump() {
+        shouldJump = true;
     }
 
     private IEnumerator shortPowerUp() {
         runSpeed *= 2;
         jumpForce *= 2;
         yield return new WaitForSeconds(10);
-        Debug.Log("YO YO");
         runSpeed /= 2;
         jumpForce /= 2;
         StopCoroutine(shortPowerUp());
