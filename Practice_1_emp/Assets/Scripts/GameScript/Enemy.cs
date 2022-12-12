@@ -4,48 +4,30 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private GameManager gm;
     [SerializeField] private float enemySpeed;
-    [SerializeField] private float jumpUpForce;
-    private bool isChasing;
+    [SerializeField] private float jumpForce;
     public GameObject target;
     private Rigidbody2D enemyRb;
 
     private void Start() {
         enemyRb = GetComponent<Rigidbody2D>();
-        gm = GameObject.FindObjectOfType<GameManager>();
     }
 
     private void Update() {
         StartCoroutine(WaitBeforeFollowPlayer());
-
-        if (isChasing == true) {
-            enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed,ForceMode2D.Force);
-            Debug.Log("Chasing");
-        }
     }
 
     private IEnumerator WaitBeforeFollowPlayer() {
         yield return new WaitForSeconds(2);
-        isChasing = true;
-      
+        enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-
-    }
-
-    private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag("Platform")) {
-            isChasing = false;
-            enemyRb.AddForce(new Vector2(0, jumpUpForce));
-
+        if (other.gameObject.CompareTag("Platform")) {
+            Debug.Log("collided with Platform");
+            enemyRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            //enemyRb.AddForce(Vector2.up * jumpForce * 500, ForceMode2D.Force);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag("Platform")) {
-            isChasing = true;
-        }
-    }
 }

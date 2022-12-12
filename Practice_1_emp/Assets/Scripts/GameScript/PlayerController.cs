@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D playerRb;
     private GameManager gameManager;
 
-    public float runSpeed, jumpForce;
-    private int direction;
+    public float runSpeed , jumpForce;
+    int direction;
 
     private bool isGrounded,isHolding,shouldJump;
    
@@ -19,13 +19,17 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if(isHolding == true &&  isGrounded == true) {
-            playerRb.AddForce(new Vector2(direction,0) * runSpeed * Time.fixedDeltaTime);
+        if(isHolding == true && isGrounded == false) {
+            playerRb.AddForce(new Vector2(direction,0) * runSpeed/2 * Time.fixedDeltaTime, ForceMode2D.Force);
         }
-        if (shouldJump == true && isGrounded == true) {
-            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        if(isHolding == true && isGrounded == true) {
+            playerRb.AddForce(new Vector2(direction, 0) * runSpeed * Time.fixedDeltaTime, ForceMode2D.Force);
+        }
+
+        if (isGrounded == true && shouldJump == true) {
+            playerRb.AddForce(Vector2.up * jumpForce * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            isGrounded = false;
             shouldJump = false;
-            isGrounded = false;   
         }
 
     }
@@ -58,21 +62,21 @@ public class PlayerController : MonoBehaviour
         direction = -1;
     }
 
-    public void OnLeftUp() {
+    public void onLeftUp() {
         isHolding = false;
     }
 
-    public void OnRightDown() {
+    public void onRightDown() {
         isHolding = true;
         direction = 1;
     }
 
-    public void OnRightUp() {
+    public void onRightUp() {
         isHolding = false;
     }
 
 
-    public void OnClickJump() {
+    public void onClickJump() {
         shouldJump = true;
     }
 
@@ -80,10 +84,9 @@ public class PlayerController : MonoBehaviour
         runSpeed *= 2;
         jumpForce *= 2;
         yield return new WaitForSeconds(10);
+        Debug.Log("YO YO");
         runSpeed /= 2;
         jumpForce /= 2;
         StopCoroutine(shortPowerUp());
     }
-
-
 }
