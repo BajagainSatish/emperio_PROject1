@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI score_Text;
 
-    public GameObject pauseBG, menuButton,speedSlider;
-    public float score;
+    public GameObject pauseBG, menuButton,basicButtons;
     private bool isOnPause;
+    public bool isGameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score_Text.text = "Score: " + score;
-
-            if (score > 1) {
-                Debug.Log("GameOver");
-                SceneManager.LoadScene("GameOver");
-            }
+        if(isGameOver == true) {
+            Time.timeScale = 0;
+            pauseBG.gameObject.SetActive(true);
+            menuButton.gameObject.SetActive(true);
+            basicButtons.gameObject.SetActive(false);
+        }
     }
 
     public void OnClickPause() {
@@ -34,15 +34,17 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0.0f;
             pauseBG.gameObject.SetActive(true);
             menuButton.gameObject.SetActive(true);
-            speedSlider.gameObject.SetActive(true);
+            basicButtons.gameObject.SetActive(false);
             isOnPause = true;
+            Debug.Log("Paused");
         }
-        else {
+        else if(isOnPause == true) {
             Time.timeScale = 1.0f;
             pauseBG.gameObject.SetActive(false);
             menuButton.gameObject.SetActive(false);
-            speedSlider.gameObject.SetActive(false);
+            basicButtons.gameObject.SetActive(true);
             isOnPause = false;
+            Debug.Log("Play");
         }
     }
 
