@@ -25,7 +25,7 @@ public class scenemanager : MonoBehaviour
     }
 
     private IEnumerator WaitForOptUIAni() { 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         Debug.Log("Option is Clicked");
         if (optIsActive == false)
         {
@@ -39,12 +39,12 @@ public class scenemanager : MonoBehaviour
     }
     private IEnumerator WaitForStartUIAni()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.15f);
         SceneManager.LoadScene("Game1");
     }
     private IEnumerator WaitForExitUIAni()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         Debug.Log("Application.Quit()");
         Application.Quit();
     }

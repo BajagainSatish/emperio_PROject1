@@ -5,21 +5,34 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletspeed, bulletBoundary;
+    private bool shootAlready;
     private int direct;
     Rigidbody2D rb;
     private PlayerController playerContScript;
 
     private void Start() {
+        shootAlready = false;
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 5);
         playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    private void Update() {
-        direct = playerContScript.direction;
-    }
     private void FixedUpdate() {
-            rb.AddForce(Vector2.right * Time.deltaTime * bulletspeed, ForceMode2D.Impulse);       
+        direct = playerContScript.direction;
+
+        if (shootAlready == false)
+        {
+            if (direct == 1)
+            {
+                rb.AddForce(Vector2.right * Time.deltaTime * bulletspeed, ForceMode2D.Impulse);
+                shootAlready = true;
+            }
+            if (direct == -1)
+            {
+                rb.AddForce(Vector2.left * Time.deltaTime * bulletspeed, ForceMode2D.Impulse);
+                shootAlready = true;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

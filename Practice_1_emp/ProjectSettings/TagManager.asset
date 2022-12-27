@@ -10,6 +10,7 @@ TagManager:
   - PowerUp
   - Bullet
   - AttackCollider
+  - Wall
   layers:
   - Default
   - TransparentFX
