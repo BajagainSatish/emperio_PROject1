@@ -40,7 +40,7 @@ public class scenemanager : MonoBehaviour
     private IEnumerator WaitForStartUIAni()
     {
         yield return new WaitForSeconds(0.15f);
-        SceneManager.LoadScene("Game1 1");
+        SceneManager.LoadScene("Game1");
     }
     private IEnumerator WaitForExitUIAni()
     {
