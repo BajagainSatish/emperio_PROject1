@@ -12,15 +12,14 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded,isHolding,shouldJump;
 
     public GameObject bullet, shootPos;
-    GameObject bulletPref;
 
     void Start() {
+        gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
-        direction = 1;
+        direction = 1;  
     }
 
     void FixedUpdate() {
-
         if(isHolding == true && isGrounded == false) {
             playerRb.AddForce(new Vector2(direction,0) * runSpeed/2 * Time.fixedDeltaTime, ForceMode2D.Force);
         }
@@ -59,6 +58,7 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+
     public void OnButtonShoot() {
         Instantiate(bullet, shootPos.transform.position, Quaternion.identity);
     }
@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
     public void onRightUp() {
         isHolding = false;
     }
-
 
     public void onClickJump() {
         shouldJump = true;

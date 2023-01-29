@@ -7,27 +7,26 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float enemySpeed;
     [SerializeField] private float jumpForce;
     public float agroRange;
-    public int enemyhealth;
+    public int enemyhealth,damage = 5;
 
-    public GameObject target;
-    public GameManager gM;
+    private GameObject target;
+    private GameManager gameManager;
 
     private Rigidbody2D enemyRb;
 
-    bool shouldJump,isGameOver;
+    bool shouldJump = false,isGameOver;
 
     private void Start() {
         enemyRb = GetComponent<Rigidbody2D>();
-        shouldJump = false;
-        gM = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-        isGameOver = gM.isGameOver;
+        gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        target = GameObject.Find("Player");
     }
 
     private void Update() {
         if (enemyhealth <= 0) {
             dead();
             print("Destroy");
-            isGameOver = true;
+            gameManager.isGameOver = true;
         }
         if(target.transform.position.x < transform.position.x) {
             transform.localScale = new(1, 1);
@@ -77,6 +76,10 @@ public class Enemy : MonoBehaviour
             enemyhealth -= 1;
             Destroy(collision.gameObject);
             print("Hit");
+        }
+        if (collision.gameObject.CompareTag("Player")) {
+            collision.gameObject.GetComponent<Player>().DamageTaken(damage);
+            Debug.Log("contact with Player");
         }
     }
 
