@@ -142,10 +142,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3197064950808197798}
   - component: {fileID: 3197064950808197799}
-  - component: {fileID: 3197064950808197796}
   - component: {fileID: 3197064950808197786}
   - component: {fileID: 3197064950808197793}
   - component: {fileID: 6182057775136697076}
+  - component: {fileID: 3197064950808197796}
   m_Layer: 0
   m_Name: EnemyNormal
   m_TagString: Enemy
@@ -222,25 +222,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3197064950808197796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197064950808197787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef5b00f8bb510144e96f2c8ddcb14d7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemySpeed: -5
-  jumpForce: 16
-  agroRange: 4
-  enemyhealth: 5
-  damage: 5
-  target: {fileID: 0}
-  gM: {fileID: 0}
 --- !u!50 &3197064950808197786
 Rigidbody2D:
   serializedVersion: 4
@@ -304,3 +285,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4656105, y: 0.41381645}
   m_EdgeRadius: 0
+--- !u!114 &3197064950808197796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197064950808197787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5b00f8bb510144e96f2c8ddcb14d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySpeed: -5
+  jumpForce: 16
+  agroRange: 4
+  enemyhealth: 5
+  damage: 5
+  attackCollider: {fileID: 0}

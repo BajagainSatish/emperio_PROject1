@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour
+public class UI_TestScript : MonoBehaviour
 {
     public void onClickStart() {
         Debug.Log("Start is Clicked");

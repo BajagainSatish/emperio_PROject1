@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float cameraSpeed;
+    public Transform target;
 
     private void Update()
     {
-        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
-
-        if (player.position.x < -8.11f && player.position.y < -1.2f) {
+        transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
+         
+        
+        if (target.position.x < -8.11f && target.position.y < -1.2f) {
             transform.position = new Vector3(-8.11f,-1.2f,transform.position.z);
             //Debug.Log("up&down");
         }
-        else if (player.position.y < -1.2f) {
-            transform.position = new Vector3(player.position.x,-1.2f,transform.position.z);
+        else if (target.position.y < -1.2f) {
+            transform.position = new Vector3(target.position.x,-1.2f,transform.position.z);
             //Debug.Log("just up");
         }
-        else if (player.position.x < -8.11f)
+        else if (target.position.x < -8.11f)
         {
-            transform.position = new Vector3(-8.11f, player.position.y, transform.position.z);
+            transform.position = new Vector3(-8.11f, target.position.y, transform.position.z);
             //Debug.Log("just left");
         }
+
+        
     }
 }

@@ -8,13 +8,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float jumpForce;
     public float agroRange;
     public int enemyhealth,damage = 5;
+    float timer;
 
     private GameObject target;
+    public Collider2D attackCollider;
     private GameManager gameManager;
+
 
     private Rigidbody2D enemyRb;
 
-    bool shouldJump = false,isGameOver;
+    bool shouldJump, isGameOver, shouldChase = true;
+
+
+
 
     private void Start() {
         enemyRb = GetComponent<Rigidbody2D>();
@@ -49,7 +55,9 @@ public class Enemy : MonoBehaviour
     }
 
     void StartChasing() {
-        enemyRb.velocity = new Vector2(enemySpeed, 0);
+        if (shouldChase == true) {
+            enemyRb.velocity = new Vector2(enemySpeed, 0);
+        }
         //enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed * Time.fixedDeltaTime);
     }
 
@@ -57,12 +65,31 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Platform")) {
-            Debug.Log("collided with Platform");
+    private void OnTriggerEnter2D(Collider2D collider) {
+ 
+        if (collider.gameObject.CompareTag("Platform")) {
+            Debug.Log("Collided with Platform");
             shouldJump = true;
         }
+
+        if (collider.gameObject.CompareTag("Player")) {
+            Debug.Log("detected player");
+            timer += Time.deltaTime;
+            shouldChase = false;
+
+            Player player = collider.gameObject.GetComponent<Player>();
+            if (player != null) {
+                player.DamageTaken(damage);
+                timer = 0;
+                Debug.Log("Inside If statement");
+                
+            }
+        }
+        else {
+            shouldChase = true;
+        }
     }
+
 
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Platform")) {
@@ -79,8 +106,8 @@ public class Enemy : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<Player>().DamageTaken(damage);
-            Debug.Log("contact with Player");
         }
     }
+
 
 }

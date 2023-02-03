@@ -49,3 +49,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3645580591
+    locked: 0
+  - name: Ground&Platform
+    uniqueID: 2667630905
+    locked: 0
+  - name: Traps & intractables
+    uniqueID: 1570000857
+    locked: 0
+  - name: Characters
+    uniqueID: 3955119563
+    locked: 0
+  - name: UI BG
+    uniqueID: 3150328889
+    locked: 0
