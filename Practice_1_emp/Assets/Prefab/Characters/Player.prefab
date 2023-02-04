@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 375744364466536450}
   - component: {fileID: 5160608835155849497}
   - component: {fileID: 1767039823}
+  - component: {fileID: 1767039824}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -145,17 +146,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 375744364466536451}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5066ec17cf96e34487b235b40d98b5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cee993f7eb32d845b096676ea73b035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+--- !u!114 &1767039824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375744364466536451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3509b1ffb4e005e4fa1c758fdf49fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 4744182347473776142, guid: 45b4ed7fb85f44f4ba09fb208317c627, type: 3}
   shootPos: {fileID: 1354558426}
   runSpeed: 1200
-  jumpForce: 20
+  jumpForce: 30
   hangTime: 0.1
-  fallMultiplyer: 1.3
+  fallMultiplyer: 1.1
+  direction: 0
   camTarget: {fileID: 278252972}
-  aheadAmount: 4
+  aheadAmount: 8
   aheadSpeed: 3
 --- !u!1 &2852922012478528250
 GameObject:
@@ -227,8 +242,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -339847733
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1013143356, guid: 8e96a6e124254264ea4b77ce8676e232, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
