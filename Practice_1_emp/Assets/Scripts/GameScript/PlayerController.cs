@@ -2,37 +2,114 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
-{
-
-    private Rigidbody2D playerRb;
-    private GameManager gameManager;
-    public float runSpeed , jumpForce;
-    public int direction;
-    private bool isGrounded,isHolding,shouldJump;
-
+public class PlayerController : MonoBehaviour {
+    Rigidbody2D playerRb;
+    SpriteRenderer sp;
+    GameManager gameManager;
     public GameObject bullet, shootPos;
 
+    public float runSpeed, jumpForce, hangTime, fallMultiplyer;
+    float hangCounter;
+
+
+    public int direction;
+
+    bool isGrounded, isHolding, shortJump;
+
+    public Transform camTarget;
+    public float aheadAmount, aheadSpeed;
+
     void Start() {
+        direction = 0;
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
-        direction = 1;  
+        sp = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
+        if (sp == null) {
+            print("didnt found shit");
+        }
+        direction = 1;
     }
 
     void FixedUpdate() {
-        if(isHolding == true && isGrounded == false) {
-            playerRb.AddForce(new Vector2(direction,0) * runSpeed/2 * Time.fixedDeltaTime, ForceMode2D.Force);
+
+        if (isHolding == true && isGrounded == true) {
+            playerRb.AddForce(new Vector2(direction, 0) * runSpeed * Time.fixedDeltaTime, ForceMode2D.Force); // Walking in Ground
         }
-        if(isHolding == true && isGrounded == true) {
-            playerRb.AddForce(new Vector2(direction, 0) * runSpeed * Time.fixedDeltaTime, ForceMode2D.Force);
+        else if (isHolding == true && isGrounded == false) {
+            playerRb.AddForce(new Vector2(direction, 0) * runSpeed / 2 * Time.fixedDeltaTime, ForceMode2D.Force); // Walking When in Air/Juming
         }
 
-        if (isGrounded == true && shouldJump == true) {
-            playerRb.AddForce(Vector2.up * jumpForce * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        if (isGrounded == true) { // Coyoti Time HangTime
+            hangCounter = hangTime;
+        }
+        else {
+            hangCounter -= Time.deltaTime;
+        }
+
+        if (playerRb.velocity.y < 0 && isGrounded == false && shortJump == true) {
+            playerRb.gravityScale = playerRb.gravityScale * fallMultiplyer; // Increase fall speed
+        }
+        else {
+            playerRb.gravityScale = 3;
+        }
+        // Move Camera Point  
+        if (direction != 0 && playerRb.velocity.x != 0) {
+            camTarget.localPosition = new Vector2(Mathf.Lerp(camTarget.localPosition.x, aheadAmount * direction, aheadSpeed * Time.deltaTime), camTarget.localPosition.y);
+        }
+
+    }
+
+    public void onJumpButtonDown() { // When jump button is pressed 
+        if (isGrounded == true && hangCounter > 0) {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
             isGrounded = false;
-            shouldJump = false;
+            shortJump = false;
         }
+    }
 
+    public void onJumpButtonUp() { // When jump button is released
+        if (playerRb.velocity.y > 0) {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y * .5f);
+            shortJump = true;
+        }
+    }
+
+    public void OnLeftDown() { // When button is pressed 
+        isHolding = true;
+        direction = -1;
+        sp.flipX = true;
+    }
+
+    public void onLeftUp() { //When button is released
+        isHolding = false;
+        direction = 0;
+    }
+
+    public void onRightDown() { // When button is pressed 
+        isHolding = true;
+        direction = 1;
+        sp.flipX = false;
+        // transform.localScale = new (1, 1);     
+    }
+
+    public void onRightUp() { //When button is released
+        isHolding = false;
+        direction = 0;
+    }
+
+    public int direction_Facing() {
+        if (direction == 1) {
+            return 1;
+        }
+        else if (direction == -1) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
+    public void OnButtonShoot() {
+        Instantiate(bullet, shootPos.transform.position, Quaternion.identity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -41,73 +118,13 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
         }
         else if (collision.gameObject.CompareTag("Ground")) {
-            isGrounded = true;
+            isGrounded = true;      
         }
         else if (collision.gameObject.CompareTag("Platform")) {
             isGrounded = true;
         }
-        else if (collision.gameObject.CompareTag("Wall"))
-        {
+        else if (collision.gameObject.CompareTag("Wall")) {
             isGrounded = true;
-        }
-
-        if (collision.gameObject.CompareTag("PowerUp")) {
-            Debug.Log("Collision:PowerUp");
-            StartCoroutine(shortPowerUp());
-            Destroy(collision.gameObject);
-        }
-    }
-
-    public void OnButtonShoot() {
-        Instantiate(bullet, shootPos.transform.position, Quaternion.identity);
-    }
-
-    public void OnLeftDown() {
-      
-        isHolding = true;
-        direction = -1;
-        transform.localScale = new (-1, 1);
-    }
-
-    public void onLeftUp() {
-        isHolding = false;
-    }
-
-    public void onRightDown() {
-        isHolding = true;
-        direction = 1;
-        transform.localScale = new Vector3(1, 1);
-    }
-
-    public void onRightUp() {
-        isHolding = false;
-    }
-
-    public void onClickJump() {
-        shouldJump = true;
-    }
-
-    private IEnumerator shortPowerUp() {
-        runSpeed *= 2;
-        jumpForce *= 2;
-        yield return new WaitForSeconds(10);
-        Debug.Log("YO YO");
-        runSpeed /= 2;
-        jumpForce /= 2;
-        StopCoroutine(shortPowerUp());
-    }
-
-    public int direction_Facing() {
-        if (direction == 1)
-        {
-            return 1;
-        }
-        else if (direction == -1)
-        {
-            return -1;
-        }
-        else {
-            return 0;
         }
     }
 }

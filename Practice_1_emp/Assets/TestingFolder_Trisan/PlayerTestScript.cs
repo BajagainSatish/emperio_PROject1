@@ -13,7 +13,7 @@ public class PlayerTestScript : MonoBehaviour {
     float hangCounter;
     
 
-    int direction;
+    private int direction;
 
     bool isGrounded, isHolding,shortJump;
 
