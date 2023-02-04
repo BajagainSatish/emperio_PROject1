@@ -24,9 +24,6 @@ public class PlayerController : MonoBehaviour {
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
         sp = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
-        if (sp == null) {
-            print("didnt found shit");
-        }
         direction = 1;
     }
 
@@ -110,6 +107,7 @@ public class PlayerController : MonoBehaviour {
     }
     public void OnButtonShoot() {
         Instantiate(bullet, shootPos.transform.position, Quaternion.identity);
+        Debug.Log("shoot");
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

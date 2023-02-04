@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/GameOver.unity
     guid: ae4e8662abe5f8f4aa5c123b7c636b99
   - enabled: 1
-    path: Assets/TestingFolder/PlayerTestScene.unity
+    path: Assets/TestingFolder_Trisan/PlayerTestScene.unity
     guid: 63c65e9d025b01e4288aa97afee7d207
   m_configObjects: {}
