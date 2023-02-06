@@ -7,19 +7,21 @@ public class Bullet : MonoBehaviour
     public float bulletspeed, bulletBoundary;
     private bool shootAlready;
     private int direct;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     private PlayerController playerContScript;
 
     private void Start() {
         shootAlready = false;
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 5);
-        playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        //playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        playerContScript = GameObject.Find("Player_Test_Anim").GetComponent<PlayerController>();
     }
-
+    
     private void FixedUpdate() {
         direct = playerContScript.direction;
-
+        Debug.Log(playerContScript.direction);
+        Debug.Log(direct);
         if (shootAlready == false)
         {
             if (direct == 1)

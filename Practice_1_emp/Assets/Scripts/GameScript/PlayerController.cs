@@ -11,16 +11,15 @@ public class PlayerController : MonoBehaviour {
     public float runSpeed, jumpForce, hangTime, fallMultiplyer;
     float hangCounter;
 
-
     public int direction;
 
     bool isGrounded, isHolding, shortJump;
 
     public Transform camTarget;
     public float aheadAmount, aheadSpeed;
+    public shootDebug shootdebug;
 
     void Start() {
-        direction = 0;
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
         sp = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
@@ -75,11 +74,11 @@ public class PlayerController : MonoBehaviour {
         isHolding = true;
         direction = -1;
         sp.flipX = true;
+        shootdebug.leftMovement();
     }
 
     public void onLeftUp() { //When button is released
         isHolding = false;
-        direction = 0;
     }
 
     public void onRightDown() { // When button is pressed 
@@ -87,11 +86,11 @@ public class PlayerController : MonoBehaviour {
         direction = 1;
         sp.flipX = false;
         // transform.localScale = new (1, 1);     
+        shootdebug.rightMovement();
     }
 
     public void onRightUp() { //When button is released
         isHolding = false;
-        direction = 0;
     }
 
     public int direction_Facing() {
