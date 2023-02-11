@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     Rigidbody2D playerRb;
-    SpriteRenderer sp;
+    GameObject playerSprite;
     GameManager gameManager;
     public GameObject bullet, shootPos;
+
 
     public float runSpeed, jumpForce, hangTime, fallMultiplyer;
     float hangCounter;
@@ -17,12 +18,12 @@ public class PlayerController : MonoBehaviour {
 
     public Transform camTarget;
     public float aheadAmount, aheadSpeed;
-    public shootDebug shootdebug;
+    //public shootDebug shootdebug;
 
     void Start() {
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
-        sp = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
+        playerSprite = GameObject.Find("Player_Sprite");
         direction = 1;
     }
 
@@ -50,7 +51,8 @@ public class PlayerController : MonoBehaviour {
         }
         // Move Camera Point  
         if (direction != 0 && playerRb.velocity.x != 0) {
-            camTarget.localPosition = new Vector2(Mathf.Lerp(camTarget.localPosition.x, aheadAmount * direction, aheadSpeed * Time.deltaTime), camTarget.localPosition.y);
+                camTarget.localPosition = new Vector2(Mathf.Lerp(camTarget.localPosition.x, aheadAmount * direction, aheadSpeed * Time.deltaTime),
+                    camTarget.localPosition.y);
         }
 
     }
@@ -70,28 +72,31 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void onRightDown() { // When button is pressed 
+        isHolding = true;
+        direction = 1;
+        //sp.flipX = false;
+        playerSprite.transform.localScale = new Vector2(1, 1);
+        shootPos.transform.position = transform.position + new Vector3(2f, 2f, 0f);
+    }
+
+    public void onRightUp() { //When button is released
+        isHolding = false;
+    }
+
     public void OnLeftDown() { // When button is pressed 
         isHolding = true;
         direction = -1;
-        sp.flipX = true;
-        shootdebug.leftMovement();
+        //sp.flipX = true;
+        playerSprite.transform.localScale = new Vector2(-1, 1);
+        shootPos.transform.position = transform.position + new Vector3(-2f, 2f, 0f);
     }
 
     public void onLeftUp() { //When button is released
         isHolding = false;
     }
 
-    public void onRightDown() { // When button is pressed 
-        isHolding = true;
-        direction = 1;
-        sp.flipX = false;
-        // transform.localScale = new (1, 1);     
-        shootdebug.rightMovement();
-    }
 
-    public void onRightUp() { //When button is released
-        isHolding = false;
-    }
 
     public int direction_Facing() {
         if (direction == 1) {
@@ -110,7 +115,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        //isGrounded = true;
         if (collision.gameObject.CompareTag("Enemy")) {
             isGrounded = true;
         }

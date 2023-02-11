@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletspeed, bulletBoundary;
+
     private bool shootAlready;
     private int direct;
     public Rigidbody2D rb;
@@ -14,19 +15,18 @@ public class Bullet : MonoBehaviour
         shootAlready = false;
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 5);
-        //playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
-        playerContScript = GameObject.Find("Player_Test_Anim").GetComponent<PlayerController>();
+        playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        //playerContScript = GameObject.Find("Player_Test_Anim").GetComponent<PlayerController>();
     }
     
     private void FixedUpdate() {
         direct = playerContScript.direction;
-        Debug.Log(playerContScript.direction);
-        Debug.Log(direct);
         if (shootAlready == false)
         {
             if (direct == 1)
             {
                 rb.AddForce(Vector2.right * Time.deltaTime * bulletspeed, ForceMode2D.Impulse);
+                
                 shootAlready = true;
             }
             if (direct == -1)
@@ -34,6 +34,9 @@ public class Bullet : MonoBehaviour
                 rb.AddForce(Vector2.left * Time.deltaTime * bulletspeed, ForceMode2D.Impulse);
                 shootAlready = true;
             }
+        }
+        if(rb.velocity.x == 0) {
+            Destroy(gameObject);
         }
     }
 
