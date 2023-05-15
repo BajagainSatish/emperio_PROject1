@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (playerRb.velocity.y < 0 && isGrounded == false && shortJump == true) {
+
             playerRb.gravityScale = playerRb.gravityScale * fallMultiplyer; // Increase fall speed
         }
         else {
