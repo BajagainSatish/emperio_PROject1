@@ -7,8 +7,9 @@ public class Enemy_Fast : MonoBehaviour
     [SerializeField] private float enemySpeed;
     [SerializeField] private float jumpForce;
     public GameObject target;
-    private Rigidbody2D enemyRb;
+    Rigidbody2D enemyRb;
     bool shouldMove, shouldJump;
+
     private void Start() {
         enemyRb = GetComponent<Rigidbody2D>();
         shouldMove = true;

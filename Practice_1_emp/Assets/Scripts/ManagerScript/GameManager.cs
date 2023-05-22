@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI score_Text;
-
     public GameObject pauseBG, menuButton,basicButtons;
     private bool isOnPause;
     public bool isGameOver;

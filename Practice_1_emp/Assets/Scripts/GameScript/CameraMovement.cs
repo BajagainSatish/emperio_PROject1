@@ -5,13 +5,15 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     public Transform target;
+    public float xLimit;
+    public float yLimit;
 
     private void Update()
     {
         transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
          
         
-        if (target.position.x < -8.11f && target.position.y < -1.2f) {
+        if (target.position.x < xLimit && target.position.y < yLimit) {
             transform.position = new Vector3(-8.11f,-1.2f,transform.position.z);
             //Debug.Log("up&down");
         }

@@ -14,13 +14,9 @@ public class Enemy : MonoBehaviour
     public Collider2D attackCollider;
     private GameManager gameManager;
 
-
     private Rigidbody2D enemyRb;
 
     bool shouldJump, isGameOver, shouldChase = true;
-
-
-
 
     private void Start() {
         enemyRb = GetComponent<Rigidbody2D>();
@@ -31,8 +27,6 @@ public class Enemy : MonoBehaviour
     private void Update() {
         if (enemyhealth <= 0) {
             dead();
-            print("Destroy");
-            gameManager.isGameOver = true;
         }
         if(target.transform.position.x < transform.position.x) {
             transform.localScale = new(1, 1);
@@ -43,7 +37,8 @@ public class Enemy : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        float dist = Vector2.Distance(transform.position,target.transform.position);        
+        float dist = Vector2.Distance(transform.position,target.transform.position);
+        
         if (dist <= agroRange) {
             StartChasing();
         }
@@ -63,6 +58,7 @@ public class Enemy : MonoBehaviour
 
     void dead() {
         Destroy(gameObject);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collider) {
@@ -73,7 +69,6 @@ public class Enemy : MonoBehaviour
         }
 
         if (collider.gameObject.CompareTag("Player")) {
-            Debug.Log("detected player");
             timer += Time.deltaTime;
             shouldChase = false;
 
