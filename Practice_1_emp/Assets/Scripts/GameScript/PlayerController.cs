@@ -12,13 +12,14 @@ public class PlayerController : MonoBehaviour {
     public float runSpeed, jumpForce, hangTime, fallMultiplyer;
     float hangCounter;
 
-    public int direction;
+    static public int direction;
 
     bool isGrounded, isHolding, shortJump;
 
+    /*
     public Transform camTarget;
     public float aheadAmount, aheadSpeed;
-
+    */
     void Start() {
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
@@ -50,10 +51,12 @@ public class PlayerController : MonoBehaviour {
             playerRb.gravityScale = 3;
         }
         // Move Camera Point  
+        /*
         if (direction != 0 && playerRb.velocity.x != 0) {
                 camTarget.localPosition = new Vector2(Mathf.Lerp(camTarget.localPosition.x, aheadAmount * direction, aheadSpeed * Time.deltaTime),
                     camTarget.localPosition.y);
         }
+        */
 
     }
 

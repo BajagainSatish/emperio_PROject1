@@ -16,11 +16,10 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 5);
         playerContScript = GameObject.Find("Player").GetComponent<PlayerController>();
-        //playerContScript = GameObject.Find("Player_Test_Anim").GetComponent<PlayerController>();
     }
     
     private void FixedUpdate() {
-        direct = playerContScript.direction;
+        direct = PlayerController.direction;
         if (shootAlready == false)
         {
             if (direct == 1)
