@@ -4,28 +4,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float enemySpeed;
-    [SerializeField] private float jumpForce;
-    public float agroRange;
-    public int enemyhealth,damage = 5;
-    float timer;
 
-    private GameObject target;
-    public Collider2D attackCollider;
-    private GameManager gameManager;
+    [SerializeField] protected float jumpForce, speed, agroRange,dist;
+    [SerializeField] protected int health = 100;
 
-    private Rigidbody2D enemyRb;
+    protected GameObject target;
+    protected Collider2D meleeDetect;
+    protected GameManager gameManager;
+    protected Rigidbody2D enemyRb;
 
-    bool shouldJump, isGameOver, shouldChase = true;
+    bool shouldJump, shouldChase = true;
 
     private void Start() {
+        health = 100;
         enemyRb = GetComponent<Rigidbody2D>();
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-        target = GameObject.Find("Player");
+        meleeDetect = GetComponentInChildren<CapsuleCollider2D>();
+        if (target == null) {
+            Debug.Log("Not Found");
+        }
+        else {
+            Debug.Log("Found");
+        }
     }
 
     private void Update() {
-        if (enemyhealth <= 0) {
+        if (health <= 0) {
             dead();
         }
         if(target.transform.position.x < transform.position.x) {
@@ -34,15 +38,16 @@ public class Enemy : MonoBehaviour
         else if(target.transform.position.x > transform.position.x) {
             transform.localScale = new(-1, 1);
         }
+        dist = Vector2.Distance(transform.position, target.transform.position);
+
     }
 
     private void FixedUpdate() {
-        float dist = Vector2.Distance(transform.position,target.transform.position);
-        
         if (dist <= agroRange) {
             StartChasing();
+            print("Chase");
         }
-      
+
         if(shouldJump == true) {
             enemyRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             shouldJump = false;
@@ -51,39 +56,37 @@ public class Enemy : MonoBehaviour
 
     void StartChasing() {
         if (shouldChase == true) {
-            enemyRb.velocity = new Vector2(enemySpeed, 0);
+            enemyRb.velocity = new Vector2(speed, 0);
         }
         //enemyRb.AddForce((target.transform.position - transform.position).normalized * enemySpeed * Time.fixedDeltaTime);
-    }
-
-    void dead() {
-        Destroy(gameObject);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collider) {
  
         if (collider.gameObject.CompareTag("Platform")) {
-            Debug.Log("Collided with Platform");
             shouldJump = true;
         }
+        if (collider == meleeDetect) {
+            print("Working?");
+        }
 
+        /*
         if (collider.gameObject.CompareTag("Player")) {
             timer += Time.deltaTime;
             shouldChase = false;
 
             Player player = collider.gameObject.GetComponent<Player>();
-            if (player != null) {
-                player.DamageTaken(damage);
-                timer = 0;
-                Debug.Log("Inside If statement");
-                
-            }
+            player.DamageTaken(damage);
+            timer = 0;
+            Debug.Log("Inside If statement");    
         }
+        */
+
         else {
             shouldChase = true;
         }
     }
+
 
 
     private void OnTriggerExit2D(Collider2D collision) {
@@ -95,13 +98,13 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Bullet")) {
-            enemyhealth -= 1;
-            Destroy(collision.gameObject);
-            print("Hit");
+            health -= 1;
+            Destroy(collision.gameObject);//destroy Bullet
         }
-        if (collision.gameObject.CompareTag("Player")) {
-            collision.gameObject.GetComponent<Player>().DamageTaken(damage);
-        }
+    }
+
+    void dead() {
+        Destroy(gameObject);
     }
 
 

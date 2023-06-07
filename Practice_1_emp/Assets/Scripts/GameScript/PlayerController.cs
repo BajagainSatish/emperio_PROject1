@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour {
 
     public Transform camTarget;
     public float aheadAmount, aheadSpeed;
-    //public shootDebug shootdebug;
 
     void Start() {
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
@@ -77,7 +76,9 @@ public class PlayerController : MonoBehaviour {
         isHolding = true;
         direction = 1;
         //sp.flipX = false;
-        playerSprite.transform.localScale = new Vector2(1, 1);
+        if(playerSprite.transform.localScale.x < 0)
+            playerSprite.transform.localScale = new Vector2(-playerSprite.transform.localScale.x, playerSprite.transform.localScale.y);
+
         shootPos.transform.position = transform.position + new Vector3(2f, 2f, 0f);
     }
 
@@ -88,8 +89,10 @@ public class PlayerController : MonoBehaviour {
     public void OnLeftDown() { // When button is pressed 
         isHolding = true;
         direction = -1;
-        //sp.flipX = true;
-        playerSprite.transform.localScale = new Vector2(-1, 1);
+        if(playerSprite.transform.localScale.x >0)
+                   playerSprite.transform.localScale = new Vector2(-playerSprite.transform.localScale.x,playerSprite.transform.localScale.y);
+
+
         shootPos.transform.position = transform.position + new Vector3(-2f, 2f, 0f);
     }
 
@@ -97,22 +100,8 @@ public class PlayerController : MonoBehaviour {
         isHolding = false;
     }
 
-
-
-    public int direction_Facing() {
-        if (direction == 1) {
-            return 1;
-        }
-        else if (direction == -1) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
-    }
     public void OnButtonShoot() {
         Instantiate(bullet, shootPos.transform.position, Quaternion.identity);
-        Debug.Log("shoot");
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

@@ -10,23 +10,18 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
+        //transform.position = new Vector2(target.position.x, target.position.y);
          
         
         if (target.position.x < xLimit && target.position.y < yLimit) {
-            transform.position = new Vector3(-8.11f,-1.2f,transform.position.z);
-            //Debug.Log("up&down");
+            transform.position = new Vector2(-8.11f,-1.2f);
         }
         else if (target.position.y < -1.2f) {
-            transform.position = new Vector3(target.position.x,-1.2f,transform.position.z);
-            //Debug.Log("just up");
+            transform.position = new Vector2(target.position.x,-1.2f);
         }
         else if (target.position.x < -8.11f)
         {
-            transform.position = new Vector3(-8.11f, target.position.y, transform.position.z);
-            //Debug.Log("just left");
+            transform.position = new Vector2(-8.11f, target.position.y);
         }
-
-        
     }
 }
